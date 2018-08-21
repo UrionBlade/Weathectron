@@ -1,0 +1,17 @@
+{
+  "PAGES": {
+      "HOME": {
+          "MAX_TEMP" : "Max Temperature",
+          "MIN_TEMP" : "Min Temperature",
+          "HUMIDITY" : "Humidity",
+          "PRESSURE" : "Pressure",
+          "WIND"     : {
+            "SPEED"  : "Wind Speed",
+            "DEG"    : "Direction"
+          },
+          "CLOUDS"   : "Cloudiness",
+          "RAIN"     : "Rain volume for last 3 hours",
+          "SNOW"     : "Snow volume for last 3 hours"
+      }
+  }
+}

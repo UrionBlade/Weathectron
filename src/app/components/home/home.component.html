@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="city">
+        <span class="city-name">{{ weather.name }}</span>
+        <span class="actual-temp">{{ weather.main.temp }} °C </span>
+        <span class="clock" id="clock"></span>
+        <span class="clock" id="date"></span>
+    </div>
+    <div class="icons">
+        <span id="weather-icon" class="icon">
+            
+        </span>
+        <span class="description">
+            {{ weather.weather[0].description }}
+        </span>
+        <div class="main-info">
+            <span class="temp">
+                {{ 'PAGES.HOME.MIN_TEMP' | translate }} {{ weather.main.temp_min }} °C
+            </span>
+            <span class="temp">
+                {{ 'PAGES.HOME.MAX_TEMP' | translate }} {{ weather.main.temp_max }} °C
+            </span>
+            <span class="temp">
+                {{ 'PAGES.HOME.HUMIDITY' | translate }} {{ weather.main.humidity }}%
+            </span>
+        </div>
+        <div class="main-info">
+            <span class="temp">
+                {{ 'PAGES.HOME.WIND.SPEED' | translate }} {{ weather.wind.speed }} m/s
+            </span>
+            <span class="temp">
+                {{ 'PAGES.HOME.WIND.DEG' | translate }} {{ weather.wind.deg }}°
+            </span>
+            <span class="temp">
+                {{ 'PAGES.HOME.CLOUDS' | translate }} {{ weather.clouds.all }}%
+            </span>
+            <span class="temp">
+                {{ 'PAGES.HOME.PRESSURE' | translate }} {{ weather.main.pressure }} hPa
+            </span>
+        </div>
+    </div>
+    
+</div>

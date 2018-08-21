@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
     '',
     0
   )
+  nextDays
   location: LocationModel
   date: string
   lat: number;
@@ -46,7 +47,7 @@ export class HomeComponent implements OnInit {
   /**
    * @param that used to pass 'this' to my function passing from setInterval()
    */
-  reloadWeather(that) {
+  reloadWeather(that: this) {
     const self = that
     that.service.getLocation('http://ipinfo.io', '?token=' + TOKEN).subscribe(
       res => {
@@ -82,14 +83,43 @@ export class HomeComponent implements OnInit {
             self.cd.detectChanges()
           }
         )
-      });
+      })
+  }
 
+  getNextFiveDays(that: this) {
+    const self = that
+    that.service.getLocation('http://ipinfo.io', '?token=' + TOKEN).subscribe(
+      res => {
+        console.log(res)
+        self.location = res
+        self.service.getNext5DaysWeather(self.location.postal, self.location.country).subscribe(
+          result => {
+            self.nextDays = result
+            console.log('Next five days ', self.nextDays)
+            const today = Date.now() / 1000
+            console.log(today)
+            let bool = false
+            do {
+              console.log('I\'m in')
+              bool = false
+              if ( self.nextDays.list[0].dt < today ) {
+                self.nextDays.list.shift()
+                bool = true
+              }
+            } while ( bool )
+            console.log('Removed this day ', self.nextDays)
+          }
+        )
+      }
+    )
   }
 
   ngOnInit() {
     const clock = new Clock(document.getElementById('clock'), document.getElementById('date'))
     this.reloadWeather(this)
+    this.getNextFiveDays(this)
     const self = this
+    setInterval(function() { self.getNextFiveDays(self) }, 86400000 )
     setInterval(function() { self.reloadWeather(self) } , 3600000)
     // Create a new instance of Clock, passing in your target DOM element.
   }

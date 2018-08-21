@@ -11,7 +11,8 @@
           },
           "CLOUDS"   : "Cloudiness",
           "RAIN"     : "Rain volume for last 3 hours",
-          "SNOW"     : "Snow volume for last 3 hours"
+          "SNOW"     : "Snow volume for last 3 hours",
+          "NEXT_DAYS": "Next 4 days:"
       }
   }
 }

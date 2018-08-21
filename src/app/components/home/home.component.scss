@@ -4,7 +4,7 @@
 }
 
 .city {
-    margin-top: 10%;
+    margin-top: 5%;
     margin-left: 50px;
 }
 
@@ -50,5 +50,15 @@
     margin: 15px;
     float: middle;
     vertical-align: middle;
+    font-size: 20px;
+}
+
+.weather-week-icon {
+    margin-left: 80px;
+}
+
+.next-days-weather {
+    float: right;
+    margin-right: 10px;
     font-size: 20px;
 }

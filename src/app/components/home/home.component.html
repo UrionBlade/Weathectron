@@ -6,12 +6,24 @@
         <span class="clock" id="date"></span>
     </div>
     <div class="icons">
+        <div class="next-days-weather">
+            <span>
+                {{ 'PAGES.HOME.NEXT_DAYS' | translate }}
+            </span>
+            <div>
+                <span id="day-0-icon" class="weather-week-icon">
+            
+                </span>
+            </div>
+        </div>
         <span id="weather-icon" class="icon">
             
         </span>
         <span class="description">
             {{ weather.weather[0].description }}
         </span>
+        
+        
         <div class="main-info">
             <span class="temp">
                 {{ 'PAGES.HOME.MIN_TEMP' | translate }} {{ weather.main.temp_min }} °C

@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
   lat: number;
   lon: number;
   isDay: boolean
+  weatherOnNextDays: Array<string> = new Array()
 
   constructor(private service: SearchService, private cd: ChangeDetectorRef) { }
 
@@ -96,18 +97,34 @@ export class HomeComponent implements OnInit {
           result => {
             self.nextDays = result
             console.log('Next five days ', self.nextDays)
-            const today = Date.now() / 1000
-            console.log(today)
-            let bool = false
-            do {
-              console.log('I\'m in')
-              bool = false
-              if ( self.nextDays.list[0].dt < today ) {
-                self.nextDays.list.shift()
-                bool = true
+            let date: Date = new Date(result.list[0].dt_txt.replace(/\ /gi, 'T'))
+            date.setHours(date.getHours() + 24)
+            for ( let i = 0; i < result.list.length; i ++ ) {
+              const findDate = new Date(result.list[i].dt_txt.replace(/\ /gi, 'T'))
+              if ( findDate.getHours() === date.getHours() ) {
+                self.weatherOnNextDays = [...self.weatherOnNextDays, result.list[i].weather[0].main]
+                date.setHours(date.getHours() + 24)
               }
-            } while ( bool )
-            console.log('Removed this day ', self.nextDays)
+            }
+
+            if ( document.getElementById('day-1-icon') ) {
+              for ( let i = 0; i < 4; i ++ ) {
+                document.getElementById('day-' + (i + 1) + '-icon').remove()
+              }
+            }
+
+            for ( let i = 0; i < 4; i ++ ) {
+              const img = document.createElement('img')
+              img.src = '../../../assets/images/md-weather-iconset/weather-' + (self.weatherOnNextDays[i+1]).toLowerCase() + '.png'
+              img.id = 'day-' + ( i + 1 ) + '-icon'
+              img.height = 50
+              img.width = 50
+              img.className = 'weather-week-icon'
+              document.getElementById('day-0-icon').appendChild(img)
+              console.log('created')
+            }
+            self.cd.detectChanges()
+            console.log('Weather in next days: ', self.weatherOnNextDays)
           }
         )
       }
@@ -119,7 +136,7 @@ export class HomeComponent implements OnInit {
     this.reloadWeather(this)
     this.getNextFiveDays(this)
     const self = this
-    setInterval(function() { self.getNextFiveDays(self) }, 86400000 )
+    setInterval(function() { self.getNextFiveDays(self) }, 3600000 )
     setInterval(function() { self.reloadWeather(self) } , 3600000)
     // Create a new instance of Clock, passing in your target DOM element.
   }
@@ -170,7 +187,7 @@ class Clock {
       let hours = time.getHours().toString()
       let minutes = time.getMinutes().toString()
       let seconds = time.getSeconds().toString()
-      const day = time.getDay().toString()
+      let day = time.getDay().toString()
       const month = time.getMonth().toString()
       const year = time.getFullYear().toString()
 
@@ -186,6 +203,11 @@ class Clock {
       if (seconds.length < 2) {
       seconds = '0' + seconds
       }
+
+      if (day.length < 2) {
+        day = '0' + day
+      }
+
       const clockStr = {
         clock: hours + ' : ' + minutes + ' : ' + seconds,
         date: day + ' ' + this.months[month] + ' ' + year

@@ -222,7 +222,7 @@ class Clock {
 
       const clockStr = {
         clock: hours + ' : ' + minutes + ' : ' + seconds,
-        date: this.dayOfWeek[today] + ' ' + day + ' ' + this.months[month] + ' ' + year
+        date: this.dayOfWeek[ parseFloat(today) - 1 ] + ' ' + day + ' ' + this.months[month] + ' ' + year
       }
 
       // Update this class' "el" variable as before.

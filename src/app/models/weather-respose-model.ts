@@ -12,12 +12,13 @@ export class WeatherModel {
         public base: string,
         public main: Temperature,
         public visibility: number,
-        public wind: Wind,
+        public wind: Wind, 
         public clouds: Cloud,
         public dt: number,
         public sys: CountryInfo,
         public id: number,
         public name: string,
-        public cod: number
+        public cod: number,
+        public dt_txt?: string
     ) { }
 }

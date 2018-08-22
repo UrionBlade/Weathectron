@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { WeatherModel } from '../models/weather-respose-model';
 import { LocationModel } from '../models/location-model';
+import { ForecastResponse } from '../models/forecast-response-model';
 
 @Injectable()
 export class SearchService {
@@ -25,7 +26,7 @@ export class SearchService {
 
   getNext5DaysWeather(zip: string, country: string) {
     const apiUrl = this.apiRoot + this.apiForecast + '?zip=' + zip + ',' + country + '&APPID=' + this.appId;
-      return this.http.get(apiUrl);
+      return this.http.get<ForecastResponse>(apiUrl);
   }
 
   doPost(object: Object, url: String) {

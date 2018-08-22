@@ -9,6 +9,7 @@ import { CountryInfo } from '../../models/country-model';
 import { Weather } from '../../models/weather-model';
 import * as moment from 'moment';
 import { LocationModel } from '../../models/location-model';
+import { ForecastResponse } from '../../models/forecast-response-model';
 
 const TOKEN = '88e15095a3bbfb'
 const KELVIN_GRADE = 273.15
@@ -35,7 +36,7 @@ export class HomeComponent implements OnInit {
     '',
     0
   )
-  nextDays
+  nextDays: ForecastResponse
   location: LocationModel
   date: string
   lat: number;
@@ -97,7 +98,7 @@ export class HomeComponent implements OnInit {
           result => {
             self.nextDays = result
             console.log('Next five days ', self.nextDays)
-            let date: Date = new Date(result.list[0].dt_txt.replace(/\ /gi, 'T'))
+            const date: Date = new Date(result.list[0].dt_txt.replace(/\ /gi, 'T'))
             date.setHours(date.getHours() + 24)
             for ( let i = 0; i < result.list.length; i ++ ) {
               const findDate = new Date(result.list[i].dt_txt.replace(/\ /gi, 'T'))
@@ -147,6 +148,16 @@ class Clock {
   // Declare a class variable of type "Element" called el
   el: Element
   dateElem: Element
+  dayOfWeek = new Array<string>(
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  )
+
   months = new Array<string>(
     'January',
     'February',
@@ -187,7 +198,8 @@ class Clock {
       let hours = time.getHours().toString()
       let minutes = time.getMinutes().toString()
       let seconds = time.getSeconds().toString()
-      let day = time.getDay().toString()
+      const today = time.getDay().toString()
+      let day = time.getDate().toString()
       const month = time.getMonth().toString()
       const year = time.getFullYear().toString()
 
@@ -210,7 +222,7 @@ class Clock {
 
       const clockStr = {
         clock: hours + ' : ' + minutes + ' : ' + seconds,
-        date: day + ' ' + this.months[month] + ' ' + year
+        date: this.dayOfWeek[today] + ' ' + day + ' ' + this.months[month] + ' ' + year
       }
 
       // Update this class' "el" variable as before.

@@ -43,6 +43,15 @@ export class HomeComponent implements OnInit {
   lon: number;
   isDay: boolean
   weatherOnNextDays: Array<string> = new Array()
+  dayOfWeek = new Array<string>(
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  )
 
   constructor(private service: SearchService, private cd: ChangeDetectorRef) { }
 
@@ -94,11 +103,12 @@ export class HomeComponent implements OnInit {
       res => {
         console.log(res)
         self.location = res
+        const time = new Date()
         self.service.getNext5DaysWeather(self.location.postal, self.location.country).subscribe(
           result => {
             self.nextDays = result
             console.log('Next five days ', self.nextDays)
-            const date: Date = new Date(result.list[0].dt_txt.replace(/\ /gi, 'T'))
+            const date: Date = new Date(result.list[0].dt_txt.replace(/\ /, 'T'))
             date.setHours(date.getHours() + 24)
             for ( let i = 0; i < result.list.length; i ++ ) {
               const findDate = new Date(result.list[i].dt_txt.replace(/\ /gi, 'T'))
@@ -116,12 +126,21 @@ export class HomeComponent implements OnInit {
 
             for ( let i = 0; i < 4; i ++ ) {
               const img = document.createElement('img')
-              img.src = '../../../assets/images/md-weather-iconset/weather-' + (self.weatherOnNextDays[i+1]).toLowerCase() + '.png'
-              img.id = 'day-' + ( i + 1 ) + '-icon'
+              const span = document.createElement('span')
+              img.src = '../../../assets/images/md-weather-iconset/weather-' + (self.weatherOnNextDays[i + 1]).toLowerCase() + '.png'
+              img.id = 'day-' + i + '-icon'
               img.height = 50
               img.width = 50
               img.className = 'weather-week-icon'
-              document.getElementById('day-0-icon').appendChild(img)
+              if ( time.getDay() + i + 1 < 8 ) {
+                span.textContent = self.dayOfWeek[time.getDay() + i]
+              } else {
+                const today = (time.getDay() + i) - 7
+                span.textContent = self.dayOfWeek[today]
+              }
+              document.getElementById('weather-day-' + i + '-icon').appendChild(img)
+              document.getElementById('weather-day-of-week-' + i).appendChild(span)
+
               console.log('created')
             }
             self.cd.detectChanges()

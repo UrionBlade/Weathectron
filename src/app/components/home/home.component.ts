@@ -56,7 +56,7 @@ export class HomeComponent implements OnInit {
   constructor(private service: SearchService, private cd: ChangeDetectorRef) { }
 
   /**
-   * @param that used to pass 'this' to my function passing from setInterval()
+   * @param that used to pass 'this' to my function from setInterval()
    */
   reloadWeather(that: this) {
     const self = that
@@ -97,6 +97,9 @@ export class HomeComponent implements OnInit {
       })
   }
 
+  /**
+   * @param that used to pass 'this' to my function from setInterval()
+   */
   getNextFiveDays(that: this) {
     const self = that
     that.service.getLocation('http://ipinfo.io', '?token=' + TOKEN).subscribe(
@@ -164,7 +167,7 @@ export class HomeComponent implements OnInit {
 }
 
 class Clock {
-  // Declare a class variable of type "Element" called el
+  // Declare a class variable of type "Element"
   el: Element
   dateElem: Element
   dayOfWeek = new Array<string>(
